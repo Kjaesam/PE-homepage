@@ -6,8 +6,11 @@ import bodyParser from "body-parser";
 
 // In-memory data storage (will persist as long as the server is running)
 let notices = [
-  { id: 1, title: "2026학년도 1학기 체육 수업 안내", content: "즐거운 체육 수업을 위해 준비물을 챙겨주세요.", date: "2026-03-02", type: "공지" },
-  { id: 2, title: "체육관 이용 수칙 안내", content: "실내화 착용 및 음식물 반입 금지입니다.", date: "2026-03-05", type: "안내" },
+  { id: 1, title: "2026학년도 1학기 학사일정 안내", content: "주요 학사일정 및 공휴일을 확인하세요.", date: "2026-03-30", type: "학사" },
+  { id: 2, title: "체육행사 캘린더 (4월)", content: "4월에 예정된 체육대회 및 리그 일정을 확인하세요.", date: "2026-03-29", type: "행사" },
+  { id: 3, title: "요즘 매현중 체육은?", content: "학생들의 활기찬 체육 수업 현장 스케치", date: "2026-03-28", type: "소식" },
+  { id: 4, title: "2026학년도 1학기 체육 수업 안내", content: "즐거운 체육 수업을 위해 준비물을 챙겨주세요.", date: "2026-03-02", type: "공지" },
+  { id: 5, title: "체육관 이용 수칙 안내", content: "실내화 착용 및 음식물 반입 금지입니다.", date: "2026-03-05", type: "안내" },
 ];
 
 let activities = [
