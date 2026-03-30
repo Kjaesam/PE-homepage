@@ -6,69 +6,93 @@ import bodyParser from "body-parser";
 
 // In-memory data storage (will persist as long as the server is running)
 let notices = [
-  { id: 1, title: "2024학년도 1학기 체육 수업 안내", content: "즐거운 체육 수업을 위해 준비물을 챙겨주세요.", date: "2024-03-02", type: "공지" },
-  { id: 2, title: "체육관 이용 수칙 안내", content: "실내화 착용 및 음식물 반입 금지입니다.", date: "2024-03-05", type: "안내" },
+  { id: 1, title: "2026학년도 1학기 체육 수업 안내", content: "즐거운 체육 수업을 위해 준비물을 챙겨주세요.", date: "2026-03-02", type: "공지" },
+  { id: 2, title: "체육관 이용 수칙 안내", content: "실내화 착용 및 음식물 반입 금지입니다.", date: "2026-03-05", type: "안내" },
 ];
 
 let activities = [
-  { id: 1, title: "배드민턴 리그전", description: "점심시간을 이용한 학급별 배드민턴 대항전", imageUrl: "https://picsum.photos/seed/badminton/800/600", date: "2024-03-15" },
-  { id: 2, title: "축구 동아리 모집", description: "매주 수요일 방과 후 축구 동아리 활동", imageUrl: "https://picsum.photos/seed/soccer/800/600", date: "2024-03-20" },
+  { id: 1, title: "교과수업활동", description: "다양한 종목의 기초 기능 및 전술 학습", imageUrl: "https://picsum.photos/seed/class/800/600", date: "2026-03-10" },
+  { id: 2, title: "학생주도활동", description: "학생들이 직접 기획하고 운영하는 체육 활동", imageUrl: "https://picsum.photos/seed/student/800/600", date: "2026-03-12" },
+  { id: 3, title: "학교스포츠클럽", description: "방과 후 및 점심시간 스포츠 클럽 활동", imageUrl: "https://picsum.photos/seed/club/800/600", date: "2026-03-15" },
+  { id: 4, title: "수원시 학교스포츠클럽 대회", description: "수원시 관내 학교 대항 스포츠 대회 참여", imageUrl: "https://picsum.photos/seed/competition/800/600", date: "2026-03-20" },
+  { id: 5, title: "지역체육시설 연계 수업활동", description: "수영장, 볼링장 등 지역 시설을 활용한 수업", imageUrl: "https://picsum.photos/seed/facility/800/600", date: "2026-03-25" },
+  { id: 6, title: "학생심판교육", description: "공정한 경기 운영을 위한 심판 자질 함양 교육", imageUrl: "https://picsum.photos/seed/referee/800/600", date: "2026-03-28" },
 ];
 
 let gallery = [
-  { id: 1, title: "체육대회 현장", imageUrl: "https://picsum.photos/seed/pe-day/800/600", date: "2024-03-10" },
-  { id: 2, title: "수영 수업", imageUrl: "https://picsum.photos/seed/swimming/800/600", date: "2024-03-12" },
+  { id: 1, title: "체육대회 현장", imageUrl: "https://picsum.photos/seed/pe-day/800/600", date: "2026-03-10" },
+  { id: 2, title: "수영 수업", imageUrl: "https://picsum.photos/seed/swimming/800/600", date: "2026-03-12" },
 ];
 
 async function startServer() {
   const app = express();
   const PORT = 3000;
 
+  console.log("Starting Maehyeon PE Server...");
+  console.log("NODE_ENV:", process.env.NODE_ENV);
+
   app.use(cors());
   app.use(bodyParser.json());
 
-  // API Routes
-  app.get("/api/notices", (req, res) => {
+  // API Router
+  const apiRouter = express.Router();
+
+  apiRouter.get("/notices", (req, res) => {
+    console.log("API: GET /notices");
     res.json(notices);
   });
 
-  app.post("/api/notices", (req, res) => {
+  apiRouter.post("/notices", (req, res) => {
+    console.log("API: POST /notices", req.body);
     const newNotice = { id: Date.now(), ...req.body };
     notices = [newNotice, ...notices];
     res.status(201).json(newNotice);
   });
 
-  app.get("/api/activities", (req, res) => {
+  apiRouter.get("/activities", (req, res) => {
+    console.log("API: GET /activities");
     res.json(activities);
   });
 
-  app.post("/api/activities", (req, res) => {
+  apiRouter.post("/activities", (req, res) => {
+    console.log("API: POST /activities", req.body);
     const newActivity = { id: Date.now(), ...req.body };
     activities = [newActivity, ...activities];
     res.status(201).json(newActivity);
   });
 
-  app.get("/api/gallery", (req, res) => {
+  apiRouter.get("/gallery", (req, res) => {
+    console.log("API: GET /gallery");
     res.json(gallery);
   });
 
-  app.post("/api/gallery", (req, res) => {
+  apiRouter.post("/gallery", (req, res) => {
+    console.log("API: POST /gallery", req.body);
     const newGalleryItem = { id: Date.now(), ...req.body };
     gallery = [newGalleryItem, ...gallery];
     res.status(201).json(newGalleryItem);
   });
 
+  app.use("/api", apiRouter);
+
   // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
+  const isProd = process.env.NODE_ENV === "production";
+  
+  if (!isProd) {
+    console.log("Starting in DEVELOPMENT mode with Vite middleware");
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
     });
     app.use(vite.middlewares);
   } else {
+    console.log("Starting in PRODUCTION mode serving static files");
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
     app.get("*", (req, res) => {
+      if (req.path.startsWith('/api')) {
+        return res.status(404).json({ error: "Not Found" });
+      }
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

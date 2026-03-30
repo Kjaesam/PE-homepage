@@ -49,11 +49,23 @@ export default function App() {
         fetch('/api/gallery')
       ]);
       
-      const [noticesData, activitiesData, galleryData] = await Promise.all([
-        noticesRes.json(),
-        activitiesRes.json(),
-        galleryRes.json()
-      ]);
+      const results = await Promise.all([noticesRes, activitiesRes, galleryRes]);
+      
+      for (const res of results) {
+        if (!res.ok) {
+          throw new Error(`HTTP error! status: ${res.status}`);
+        }
+        const contentType = res.headers.get("content-type");
+        if (!contentType || !contentType.includes("application/json")) {
+          const text = await res.text();
+          console.error("Expected JSON but received:", text.substring(0, 100));
+          throw new Error("Received non-JSON response from server");
+        }
+      }
+
+      const [noticesData, activitiesData, galleryData] = await Promise.all(
+        results.map(res => res.json())
+      );
 
       setNotices(noticesData);
       setActivities(activitiesData);
@@ -178,7 +190,7 @@ export default function App() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
               <span className="text-xs font-bold tracking-widest text-blue-400 uppercase">
-                LIVE: 2024 매현 체육 수업 진행 중
+                LIVE: 2026 매현 체육 수업 진행 중
               </span>
             </div>
 
@@ -444,7 +456,7 @@ export default function App() {
       </AnimatePresence>
 
       <footer className="relative z-10 border-t border-white/10 py-12 text-center text-slate-500 text-sm">
-        <p>© 2024 Maehyeon Middle School Physical Education. All rights reserved.</p>
+        <p>© 2026 Maehyeon Middle School Physical Education. All rights reserved.</p>
       </footer>
     </div>
   );
