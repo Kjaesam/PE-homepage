@@ -67,9 +67,9 @@ export default function App() {
     return saved ? JSON.parse(saved) : [
       { id: 1, title: "교과수업활동", description: "다양한 종목의 기초 기능 및 전술 학습", imageUrl: "https://picsum.photos/seed/class/800/600", date: "2026-03-10" },
       { id: 2, title: "학생주도활동", description: "학생들이 직접 기획하고 운영하는 체육 활동", imageUrl: "https://picsum.photos/seed/student/800/600", date: "2026-03-12" },
-      { id: 3, title: "학교스포츠클럽", description: "방과 후 및 점심시간 스포츠 클럽 활동", imageUrl: "https://picsum.photos/seed/club/800/600", date: "2026-03-15" },
+      { id: 3, title: "학교스포츠클럽", description: "오아시스, 방과 후 및 점심시간 학교스포츠클럽 활동", imageUrl: "https://picsum.photos/seed/club/800/600", date: "2026-03-15" },
       { id: 4, title: "수원시 학교스포츠클럽 대회", description: "수원시 관내 학교 대항 스포츠 대회 참여", imageUrl: "https://picsum.photos/seed/competition/800/600", date: "2026-03-20" },
-      { id: 5, title: "지역체육시설 연계 수업활동", description: "수영장, 볼링장 등 지역 시설을 활용한 수업", imageUrl: "https://picsum.photos/seed/facility/800/600", date: "2026-03-25" },
+      { id: 5, title: "지역체육시설 연계 수업활동", description: "1학년 스포츠클라이밍, 2학년 복싱, 3학년 유도 종목 선택학생 지역 시설을 활용한 수업", imageUrl: "https://picsum.photos/seed/facility/800/600", date: "2026-03-25" },
       { id: 6, title: "학생심판교육", description: "공정한 경기 운영을 위한 심판 자질 함양 교육", imageUrl: "https://picsum.photos/seed/referee/800/600", date: "2026-03-28" },
     ];
   });
@@ -77,7 +77,7 @@ export default function App() {
     const saved = localStorage.getItem('maehyeon_gallery');
     return saved ? JSON.parse(saved) : [
       { id: 1, title: "체육대회 현장", imageUrl: "https://picsum.photos/seed/pe-day/800/600", date: "2026-03-10" },
-      { id: 2, title: "수영 수업", imageUrl: "https://picsum.photos/seed/swimming/800/600", date: "2026-03-12" },
+      { id: 2, title: "깊이있는 수업", imageUrl: "https://picsum.photos/seed/swimming/800/600", date: "2026-03-12" },
     ];
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -316,7 +316,7 @@ export default function App() {
                 </div>
               </div>
 
-              {/* B. O.A.SIS (오아시스) 활동 인증 (1칸) */}
+              {/* B. O.A.SIS (오아시스) 활동 모습 */}
               <DashboardCard title="O.A.SIS" subtitle="오늘 아침 시작은 스포츠로!" icon="☀️" className="bg-amber-400 text-yellow-950">
                 <div className="text-center py-6">
                   <p className="text-sm font-bold opacity-80 mb-2">현재 참여 인원</p>
@@ -327,8 +327,8 @@ export default function App() {
                 </div>
               </DashboardCard>
 
-              {/* C. 교내 스포츠클럽 리그 순위 (1칸) */}
-              <DashboardCard title="Maehyeon League" subtitle="교내 스포츠클럽 현황" icon="🏆">
+              {/* C. 학기말 수업연계 학급별 반대항 리그전 순위 (1칸) */}
+              <DashboardCard title="Maehyeon League" subtitle="교내 반대항 리그전" icon="🏆">
                 <ul className="space-y-4 text-sm font-bold">
                   {leagueStandings.map((team) => (
                     <li key={team.rank} className="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -349,8 +349,13 @@ export default function App() {
                 <DashboardCard title="학생선택 중심수업" icon="📝" className="hover:border-indigo-200 hover:shadow-lg transition">
                   <p className="text-sm text-slate-500 font-medium mb-4">직접 선택한 종목별 수업 일정 및 자료실</p>
                   <div className="flex gap-2 text-xs font-bold text-indigo-600">
-                    <span className="bg-indigo-50 px-3 py-1 rounded-full">배드민턴</span>
                     <span className="bg-indigo-50 px-3 py-1 rounded-full">축구</span>
+                    <span className="bg-indigo-50 px-3 py-1 rounded-full">농구</span>
+                    <span className="bg-indigo-50 px-3 py-1 rounded-full">배구</span>
+                    <span className="bg-indigo-50 px-3 py-1 rounded-full">탁구</span>
+                    <span className="bg-indigo-50 px-3 py-1 rounded-full">배드민턴</span>
+                    <span className="bg-indigo-50 px-3 py-1 rounded-full">뉴스포츠</span>
+                    <span className="bg-indigo-50 px-3 py-1 rounded-full">피구발야구</span>
                     <span className="bg-indigo-50 px-3 py-1 rounded-full">댄스</span>
                   </div>
                 </DashboardCard>
@@ -364,7 +369,7 @@ export default function App() {
                 {/* D-3. 교내 스포츠클럽 */}
                 <DashboardCard title="교내 스포츠클럽" icon="⚽" className="hover:border-indigo-200 hover:shadow-lg transition">
                   <p className="text-sm text-slate-500 font-medium mb-4">사제동행 배드민턴 및 학급 리그 일정</p>
-                  <span className="text-2xl font-black italic text-indigo-600">리그 진행 중!</span>
+                  <span className="text-2xl font-black italic text-indigo-600">사제동행전 항상 대기중!</span>
                 </DashboardCard>
 
                 {/* D-4. 주도성 프로젝트 */}
@@ -398,7 +403,7 @@ export default function App() {
                     <span className="text-slate-400">03.30</span>
                   </li>
                   <li className="flex justify-between border-b border-slate-100 pb-3 hover:text-indigo-600">
-                    <span>[시장배] 줄넘기 대회 대표팀 모집</span>
+                    <span>[시장배] 축구 대회 대표팀 모집</span>
                     <span className="text-slate-400">03.28</span>
                   </li>
                 </ul>
@@ -650,7 +655,7 @@ export default function App() {
           <div>
             <h4 className="font-black italic text-indigo-600">MAEHYEON PE</h4>
             <p className="text-xs text-slate-400 mt-2">매현중학교 온라인 체육 플랫폼</p>
-            <p className="text-xs text-slate-400 mt-1">연구 과제: 학생 주도성 강화 에코시스템 구축</p>
+            <p className="text-xs text-slate-400 mt-1">연구 과제: 학생 주도성 강화 및 학교체육일상화의 지역연계 스포츠 플랫폼 구축</p>
           </div>
           <div className="flex flex-col gap-2 text-sm font-medium text-slate-500">
             <button onClick={() => setCurrentView('home')} className="hover:text-slate-950 text-left">Home</button>
